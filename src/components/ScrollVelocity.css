@@ -1,0 +1,37 @@
+﻿.parallax,
+.scroll-velocity-row {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+.scroller,
+.scroll-velocity-track {
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+.scroller span {
+  flex-shrink: 0;
+}
+
+.scroll-velocity-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 1rem;
+  color: #e0f2fe;
+}
+
+@media (min-width: 768px) {
+  .scroller {
+    font-size: 2rem;
+    line-height: 2.2rem;
+  }
+}
