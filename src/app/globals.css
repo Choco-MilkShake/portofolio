@@ -493,7 +493,7 @@ section {
 /* Profile Card Styling */
 .profile-card-container {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     width: 100%;
 }

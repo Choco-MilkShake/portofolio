@@ -1,0 +1,205 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+.hover-card {
+  --bg: #fff;
+  --title-color: #fff;
+  --title-color-hover: #000;
+  --text-color: #666;
+  --button-color: #eee;
+  --button-color-hover: #ddd;
+  background: var(--bg);
+  border-radius: 2rem;
+  padding: 0.5rem;
+  width: 18rem;
+  height: 27rem;
+  overflow: clip;
+  position: relative;
+  font-family: Lato, Montserrat, Helvetica, Arial, sans-serif;
+}
+
+.hover-card.dark {
+  --bg: #151515;
+  --title-color: #fff;
+  --title-color-hover: #fff;
+  --text-color: #ccc;
+  --button-color: rgba(255, 255, 255, 0.1);
+  --button-color-hover: rgba(255, 255, 255, 0.15);
+}
+
+.hover-card::before {
+  content: "";
+  position: absolute;
+  width: calc(100% - 1rem);
+  height: 30%;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  mask: linear-gradient(#0000, #000f 80%);
+  -webkit-mask: linear-gradient(#0000, #000f 80%);
+  backdrop-filter: blur(1rem);
+  -webkit-backdrop-filter: blur(1rem);
+  border-radius: 0 0 1.5rem 1.5rem;
+  translate: 0 0;
+  transition: translate 0.25s;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hover-card > img {
+  width: 100%;
+  height: calc(100% - 1rem);
+  object-fit: cover;
+  object-position: 50% 20%;
+  border-radius: 1.5rem;
+  display: block;
+  transition: height 0.35s ease, object-position 0.35s ease;
+}
+
+.hover-card-body {
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  right: 0.5rem;
+  height: auto;
+}
+
+.hover-card-body h2 {
+  margin: 0;
+  margin-block-end: 0.5rem;
+  font-size: 1.3rem;
+  opacity: 0;
+  translate: 0 -100%;
+  color: var(--title-color);
+  transition: color 0.5s, margin-block-end 0.25s, opacity 0.35s, translate 0.25s;
+}
+
+.hover-card-body p {
+  font-size: 0.8rem;
+  line-height: 1.3;
+  color: var(--text-color);
+  opacity: 0;
+  margin: 0;
+  margin-block-end: 0;
+  translate: 0 50%;
+  transition: margin-block-end 0.25s, opacity 0.35s 0.1s, translate 0.25s 0.1s;
+}
+
+.hover-card-body > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  opacity: 0;
+  translate: 0 30%;
+  margin-top: auto;
+  padding-top: 0.5rem;
+  transition: translate 0.25s 0.15s, opacity 0.35s 0.15s;
+}
+
+.hover-card-tag {
+  color: var(--title-color-hover);
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.hover-card-body > div button {
+  border: 1px solid transparent;
+  border-radius: 1.25rem 1.25rem 1.5rem 1.25rem;
+  font-size: 0.85rem;
+  padding: 0.65rem 1rem 0.65rem 2rem;
+  translate: 0.75rem;
+  background: var(--button-color);
+  transition: background 0.33s;
+  outline-offset: 2px;
+  position: relative;
+  color: var(--title-color-hover);
+  width: 6.8rem;
+  text-align: right;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.hover-card-body > div button::before,
+.hover-card-body > div button::after {
+  content: "";
+  width: 0.65rem;
+  height: 0.1rem;
+  background: currentcolor;
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  border-radius: 1rem;
+}
+
+.hover-card-body > div button::after {
+  rotate: 90deg;
+  transition: rotate 0.15s;
+}
+
+.hover-card-body > div button.following::after {
+  rotate: 0deg;
+}
+
+.hover-card-body > div button:hover {
+  background: var(--button-color-hover);
+}
+
+.hover-card-body > div button:focus {
+  outline: 2px solid var(--text-color);
+}
+
+/* Hover / Focus-within states */
+.hover-card:hover::before,
+.hover-card:focus-within::before {
+  translate: 0 100%;
+}
+
+.hover-card:hover > img,
+.hover-card:focus-within > img {
+  height: 63%;
+  object-position: 50% 15%;
+}
+
+.hover-card:hover .hover-card-body h2,
+.hover-card:focus-within .hover-card-body h2,
+.hover-card:hover .hover-card-body p,
+.hover-card:focus-within .hover-card-body p {
+  translate: 0 0;
+  opacity: 1;
+}
+
+.hover-card:hover .hover-card-body h2,
+.hover-card:focus-within .hover-card-body h2 {
+  color: var(--title-color-hover);
+  margin-block-end: 0.4rem;
+}
+
+.hover-card:hover .hover-card-body p,
+.hover-card:focus-within .hover-card-body p {
+  margin-block-end: 0.5rem;
+}
+
+.hover-card:hover .hover-card-body > div,
+.hover-card:focus-within .hover-card-body > div {
+  translate: 0 0;
+  opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hover-card {
+    width: 15rem;
+    height: 22.5rem;
+  }
+
+  .hover-card-body h2 {
+    font-size: 1.1rem;
+  }
+
+  .hover-card-body p {
+    font-size: 0.7rem;
+  }
+}

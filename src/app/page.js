@@ -10,6 +10,7 @@ import RotatingText from "../components/RotatingText";
 import ScrollVelocity from "../components/ScrollVelocity";
 import ScrollTrain from "../components/ScrollTrain";
 import InteractiveSphere from "../components/InteractiveSphere";
+import ProfileCard from "../components/ProfileCard";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
@@ -566,19 +567,7 @@ export default function Home() {
             </div>
             
             <div className="profile-card-container">
-              <div className="profile-card-glass">
-                <div className="profile-photo-placeholder">
-                  {/* Foto profil bisa dimasukkan ke dalam elemen ini sebagai background image atau tag img */}
-                </div>
-                <div className="profile-info">
-                  <h4>Daniel Abner</h4>
-                  <p className="profile-role">Developer & AI Enthusiast</p>
-                  <div className="profile-badges">
-                    <span className="profile-badge">Indonesia</span>
-                    <span className="profile-badge">Informatics</span>
-                  </div>
-                </div>
-              </div>
+              <ProfileCard />
             </div>
           </div>
 
