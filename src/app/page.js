@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Particles from "../components/Particles";
 import RotatingText from "../components/RotatingText";
 import ScrollVelocity from "../components/ScrollVelocity";
@@ -12,8 +13,95 @@ import InteractiveSphere from "../components/InteractiveSphere";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
+const textContent = "AS A DEVELOPER AND AI ENTHUSIAST, I SPECIALIZE IN BUILDING SOLUTIONS THAT ARE BOTH FUNCTIONAL AND USEFUL FOR THE SOCIETY";
+const words = textContent.split(" ");
+
+function ScrubWord({ children, progress, range }) {
+  // We map the specific range of this word to an opacity.
+  // Instead of a smooth fade, we can make it a sharp toggle or quick fade to simulate typing
+  const opacity = useTransform(progress, range, [0.1, 1]);
+  return (
+    <motion.span style={{ opacity }} className="inline-block">
+      {children}
+    </motion.span>
+  );
+}
+
 export default function Home() {
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [activePortfolioTab, setActivePortfolioTab] = useState("Projects");
+  const [selectedProject, setSelectedProject] = useState(null);
+
+  const openProjectDetails = (project) => {
+    setSelectedProject(project);
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeProjectDetails = () => {
+    setSelectedProject(null);
+    document.body.style.overflow = "auto";
+  };
+
+  const portfolioData = {
+    Projects: [
+      {
+        id: 1,
+        category: "Web Application",
+        title: "SuMo : Summarecon Mobility App",
+        description: "Sebuah Web Application yang dibuat untuk melakukan tracking jadwal bus universitas dan angkutan kawasan.",
+        imageLabel: "SuMo App Preview",
+        imageSrc: "/assets/sumo-app.svg",
+        overview: "SuMo dirancang sebagai dasbor mobilitas yang membantu mahasiswa dan pengunjung kampus melacak jadwal bus dan transportasi area secara real time.",
+        why: [
+          "Menyediakan visibilitas instan terhadap ketersediaan shuttle dan rute aktif.",
+          "Memungkinkan admin memperbarui jadwal dan status transportasi dengan cepat.",
+          "Antarmuka sederhana dan intuitif untuk penggunaan desktop dan mobile.",
+        ],
+        mainFeatures: [
+          "Real-Time Shuttle & Transport Status Tracking",
+          "Admin Mode",
+          "Simple & Intuitive Design",
+        ],
+        techUsed: ["Python", "Vue"],
+      },
+      {
+        id: 2,
+        category: "Pancasila",
+        title: "Saring Sebelum Sharing",
+        description:
+          "Project Pancasila yang mengajarkan para mahasiswa dalam menyaring konten radikalisame di Tiktok serta menghindari sikap tersebut dalam kehidupan sehari-hari terutama di internet.",
+        imageLabel: "Pancasila Project Image",
+        imageSrc:
+          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj3nCJe4awg_9KzHF2DSHiQdCMEKbu75vfTP7p8G59JV611Pi7YMooaQDm3hpt5KLP_nyK2vr6Wa46evXSVlCXa_x5dUzmDefNebwE5WoenZaPp-7twu3OcqJr2xjd3iHU0cscY7BTiJaeKjsqwTrgYM1InN7qfmmzAGX49IAdqsN3ga5t1KjBB5zwBrg2w/w1200-h675-p-k-no-nu/Pancasila.jpg",
+        overview:
+          "Saring Sebelum Sharing adalah kampanye edukasi untuk memberi bekal mahasiswa dalam mengenali, menilai, dan menolak konten radikalisme di platform Tiktok dan internet.",
+        links: [
+          { label: "Blog", url: "https://nicholaswijayapradita.blogspot.com/?m=1" },
+          { label: "Proposal", url: "https://docs.google.com/document/d/1CP1GpujhF6zESEUAGwNOq-an_54TS6q1HiyTW0FVazQ/edit?usp=sharing" },
+          { label: "Podcast", url: "https://youtu.be/C29ctHWANA8?si=SbudWK-bUejZyBZm" },
+          { label: "Videografis", url: "https://youtu.be/HhcY3ht6SIY?si=k1oj1MSuyiin6J0i" },
+          { label: "Laporan", url: "https://docs.google.com/document/d/1FnoLyZSRQFb8ZD8fXEwf2-agueOWo-GT2XacSbtQGZk/edit?usp=sharing" },
+        ],
+      },
+    ],
+    Certificates: [
+      {
+        id: 1,
+        category: "Certificate",
+        title: "Fullstack Development",
+        description: "Sertifikat pelatihan web development dan deployment modern.",
+        imageLabel: "Certificate Image",
+      },
+      {
+        id: 2,
+        category: "Certificate",
+        title: "AI & Machine Learning",
+        description: "Sertifikat kursus AI untuk integrasi model dan automasi.",
+        imageLabel: "Certificate Image",
+      },
+    ],
+  };
+
   const helloTextRef = useRef(null);
   const overlayRef = useRef(null);
   const mainContentRef = useRef(null);
@@ -21,6 +109,13 @@ export default function Home() {
   const menuBtnRef = useRef(null);
   const descriptionRef = useRef(null);
   const navUnderlineRef = useRef(null);
+  const aboutTextRef = useRef(null);
+
+  const { scrollYProgress: aboutScrollProgress } = useScroll({
+    target: aboutTextRef,
+    offset: ["start 80%", "start 30%"]
+  });
+  const textOpacity = useTransform(aboutScrollProgress, [0, 1], [0.15, 1]);
 
   useEffect(() => {
     // Prevent scrolling while intro is playing
@@ -422,7 +517,7 @@ export default function Home() {
               texts={["-> Code For A Better Future"]}
               velocity={-120}
               className="scroll-velocity-item"
-              numCopies={5}
+              numCopies={10}
               damping={60}
               stiffness={600}
               parallaxClassName="scroll-velocity-row"
@@ -435,7 +530,7 @@ export default function Home() {
               texts={["-> Informatics Student -> Fullstack Developer -> AI Enthusiast"]}
               velocity={120}
               className="scroll-velocity-item"
-              numCopies={5}
+              numCopies={10}
               damping={60}
               stiffness={600}
               parallaxClassName="scroll-velocity-row"
@@ -445,58 +540,300 @@ export default function Home() {
         </section>
 
         <section id="about">
-          <span className="section-tag reveal-up">01. About Me</span>
-          <div className="about-grid">
-            <div className="about-text">
-              <h2 className="reveal-left">
-                Daniel
-                <br />
-                Abner
-              </h2>
-              <p className="reveal-up">
-                Mahasiswa Informatika yang berfokus pada pembuatan website
-                clean, responsif, dan visual yang kuat untuk menghadirkan
-                pengalaman digital yang optimal.
-              </p>
-              <p className="reveal-up">
-                &quot;Turning ideas into clean, modern, and meaningful digital
-                experiences.&quot;
-              </p>
+          <div className="about-header" ref={aboutTextRef}>
+            <h2 className="about-statement">
+              {words.map((word, i) => {
+                const start = i / words.length;
+                const end = start + 1 / words.length;
+                return (
+                  <span key={i}>
+                    <ScrubWord progress={aboutScrollProgress} range={[start, end]}>
+                      {word}
+                    </ScrubWord>
+                    {" "}
+                  </span>
+                );
+              })}
+            </h2>
+          </div>
+
+          <div className="about-split-section reveal-up">
+            <div className="quote-container">
+              <blockquote>
+                "When there is a chance to make a choice, make one that you know you won't regret"
+              </blockquote>
+              <cite>- Trailblazer</cite>
+            </div>
+            
+            <div className="profile-card-container">
+              <div className="profile-card-glass">
+                <div className="profile-photo-placeholder">
+                  {/* Foto profil bisa dimasukkan ke dalam elemen ini sebagai background image atau tag img */}
+                </div>
+                <div className="profile-info">
+                  <h4>Daniel Abner</h4>
+                  <p className="profile-role">Developer & AI Enthusiast</p>
+                  <div className="profile-badges">
+                    <span className="profile-badge">Indonesia</span>
+                    <span className="profile-badge">Informatics</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="core-values-grid reveal-up">
+            <div className="value-card">
+              <div className="gradient-star">
+                <svg viewBox="0 0 24 24" fill="url(#star-gradient)" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="star-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#a855f7" />
+                      <stop offset="50%" stopColor="#38bdf8" />
+                      <stop offset="100%" stopColor="#1d4ed8" />
+                    </linearGradient>
+                  </defs>
+                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                </svg>
+              </div>
+              <h3>Passion</h3>
+              <p>Driven by curiosity for Technology and Life, I aim to create impactful digital solutions that simplify everyday life and empower communities through technology.</p>
+            </div>
+            
+            <div className="value-card">
+              <div className="gradient-star">
+                <svg viewBox="0 0 24 24" fill="url(#star-gradient)" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                </svg>
+              </div>
+              <h3>Innovation</h3>
+              <p>Exploring new tech and ideas to craft software that solves complex challenges, streamlines daily life, and drives meaningful innovation.</p>
+            </div>
+            
+            <div className="value-card">
+              <div className="gradient-star">
+                <svg viewBox="0 0 24 24" fill="url(#star-gradient)" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                </svg>
+              </div>
+              <h3>Growth</h3>
+              <p>Constantly adapting and improving my skills to push beyond my limits and develop higher quality solutions everyday</p>
+            </div>
+          </div>
+
+          <div className="tech-stack-section reveal-up">
+            <h3 className="tech-stack-title">Tech Stack & Tools</h3>
+            
+            <div className="tech-grid">
+              <div className="tech-item">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" className="tech-grid-logo" />
+                <span className="tech-name">React</span>
+                <span className="tech-role">Frontend</span>
+              </div>
+              <div className="tech-item">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" alt="Next.js" className="tech-grid-logo" style={{filter: 'invert(1)'}} />
+                <span className="tech-name">Next.js</span>
+                <span className="tech-role">Fullstack</span>
+              </div>
+              <div className="tech-item">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" className="tech-grid-logo" />
+                <span className="tech-name">Python</span>
+                <span className="tech-role">Backend / AI</span>
+              </div>
+              <div className="tech-item">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" alt="FastAPI" className="tech-grid-logo" />
+                <span className="tech-name">FastAPI</span>
+                <span className="tech-role">Backend</span>
+              </div>
+              <div className="tech-item">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL" className="tech-grid-logo" />
+                <span className="tech-name">MySQL</span>
+                <span className="tech-role">Database</span>
+              </div>
+              <div className="tech-item">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" className="tech-grid-logo" />
+                <span className="tech-name">PostgreSQL</span>
+                <span className="tech-role">Database</span>
+              </div>
+              <div className="tech-item">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind" className="tech-grid-logo" />
+                <span className="tech-name">TailwindCSS</span>
+                <span className="tech-role">Styling</span>
+              </div>
+              <div className="tech-item">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/canva/canva-original.svg" alt="Canva" className="tech-grid-logo" />
+                <span className="tech-name">Canva</span>
+                <span className="tech-role">Design</span>
+              </div>
+              <div className="tech-item">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma" className="tech-grid-logo" />
+                <span className="tech-name">Figma</span>
+                <span className="tech-role">Design</span>
+              </div>
+            </div>
+
+            <div className="tech-marquee-wrapper">
+              <div className="tech-marquee">
+                <div className="tech-marquee-content">
+                  {/* Logos SVG */}
+                  <div className="tech-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" /></div>
+                  <div className="tech-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" alt="Next.js" style={{filter: 'invert(1)'}} /></div>
+                  <div className="tech-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" /></div>
+                  <div className="tech-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" alt="FastAPI" /></div>
+                  <div className="tech-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL" /></div>
+                  <div className="tech-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind" /></div>
+                  <div className="tech-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" /></div>
+                  <div className="tech-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/canva/canva-original.svg" alt="Canva" /></div>
+                  <div className="tech-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma" /></div>
+                </div>
+                {/* Clone for infinite loop */}
+                <div className="tech-marquee-content">
+                  <div className="tech-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" /></div>
+                  <div className="tech-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" alt="Next.js" style={{filter: 'invert(1)'}} /></div>
+                  <div className="tech-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" /></div>
+                  <div className="tech-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" alt="FastAPI" /></div>
+                  <div className="tech-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL" /></div>
+                  <div className="tech-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind" /></div>
+                  <div className="tech-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" /></div>
+                  <div className="tech-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/canva/canva-original.svg" alt="Canva" /></div>
+                  <div className="tech-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma" /></div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
         <section id="projects">
-          <span className="section-tag reveal-up">02. Selected Work</span>
-          <h2
-            className="hero-title reveal-left"
-            style={{ fontSize: "4rem" }}
-          >
-            Portfolio
-            <br />
-            Showcase
-          </h2>
+          <div className="portfolio-header reveal-up">
+            <h2 className="hero-title">Portfolio Showcase</h2>
+            <p className="portfolio-subtitle">
+              Explore my journey through project & certifications.
+            </p>
+          </div>
+
+          <div className="portfolio-tabs reveal-up">
+            {['Projects', 'Certificates'].map((tab) => (
+              <button
+                key={tab}
+                type="button"
+                className={`tab-button ${activePortfolioTab === tab ? 'active' : ''}`}
+                onClick={() => setActivePortfolioTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
           <div className="project-grid">
-            <div className="project-card reveal-up">
-              <span className="section-tag">Web Application</span>
-              <h3>ARTIGENCY 2026</h3>
-              <p>Website pameran teknologi dan hackathon sebagai Chairperson.</p>
-              <a href="#" className="project-link">
-                View Details
-              </a>
-            </div>
-            <div className="project-card reveal-up">
-              <span className="section-tag">Smart City</span>
-              <h3>FuelTrace</h3>
-              <p>
-                Aplikasi monitoring ketersediaan bahan bakar berbasis IoT.
-              </p>
-              <a href="#" className="project-link">
-                View Details
-              </a>
-            </div>
+            {portfolioData[activePortfolioTab].map((item) => (
+              <div key={item.id} className="project-card reveal-up">
+                <div className="project-card-image">
+                  {item.imageSrc ? (
+                    <img src={item.imageSrc} alt={item.title} />
+                  ) : (
+                    <span>{item.imageLabel}</span>
+                  )}
+                </div>
+                <span className="section-tag">{item.category}</span>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                <button
+                  type="button"
+                  className="project-link"
+                  onClick={() => openProjectDetails(item)}
+                >
+                  View Details
+                </button>
+              </div>
+            ))}
           </div>
         </section>
+
+      {selectedProject && (
+        <div className="project-detail-overlay" onClick={closeProjectDetails}>
+          <motion.div
+            className="project-detail-card"
+            onClick={(e) => e.stopPropagation()}
+            initial={{ opacity: 0, y: 30, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.32, ease: "easeOut" }}
+          >
+            <div className="project-detail-top">
+              <div className="project-detail-left">
+                <div className="project-detail-header">
+                  <button
+                    type="button"
+                    className="project-detail-back-button"
+                    onClick={closeProjectDetails}
+                  >
+                    ← Back
+                  </button>
+                  <div>
+                    <h2>{selectedProject.title}</h2>
+                    <p>{selectedProject.description}</p>
+                  </div>
+                </div>
+
+                <div className="project-detail-section">
+                  <h3>Overview</h3>
+                  <p>{selectedProject.overview || selectedProject.description}</p>
+                </div>
+
+                {selectedProject.links && (
+                  <div className="project-detail-link-group">
+                    {selectedProject.links.map((link) => (
+                      <a
+                        key={link.label}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="project-detail-action-button"
+                      >
+                        {link.label}
+                      </a>
+                    ))}
+                  </div>
+                )}
+
+                {selectedProject.why && (
+                  <div className="project-detail-section">
+                    <h3>Why SuMo</h3>
+                    <ul>
+                      {selectedProject.why.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+
+              <div className="project-detail-right">
+                <div className="project-detail-image">
+                  <img src={selectedProject.imageSrc} alt={selectedProject.title} />
+                </div>
+
+                <div className="project-detail-section">
+                  <h3>Main Features</h3>
+                  <ul>
+                    {selectedProject.mainFeatures?.map((feature) => (
+                      <li key={feature}>{feature}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="project-detail-section">
+                  <h3>Tech Used</h3>
+                  <ul className="project-detail-tech-list">
+                    {selectedProject.techUsed?.map((tech) => (
+                      <li key={tech}>{tech}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
 
         <section id="contact">
           <span className="section-tag reveal-up">03. Get In Touch</span>
@@ -506,10 +843,10 @@ export default function Home() {
             together.
           </h2>
           <a
-            href="mailto:daniel.abner@email.com"
+            href="mailto:danielabner07@gmail.com"
             className="contact-email reveal-up"
           >
-            daniel.abner@email.com
+            danielabner07@gmail.com
           </a>
 
           <footer>

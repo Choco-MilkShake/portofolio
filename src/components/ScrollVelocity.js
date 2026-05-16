@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useRef, useLayoutEffect, useState } from 'react';
 import {
@@ -102,7 +102,7 @@ const ScrollVelocity = ({
     for (let i = 0; i < numCopies; i++) {
       spans.push(
         <span className={className} key={i} ref={i === 0 ? copyRef : null}>
-          {children}&nbsp;
+          {children}
         </span>
       );
     }

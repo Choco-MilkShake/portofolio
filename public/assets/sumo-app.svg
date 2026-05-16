@@ -1,0 +1,33 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0" y1="0" x2="1200" y2="800" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FB923C" />
+      <stop offset="1" stop-color="#F97316" />
+    </linearGradient>
+    <linearGradient id="screenGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.4" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" rx="60" fill="url(#bgGradient)" />
+  <rect x="100" y="120" width="1000" height="560" rx="40" fill="#ffffff" fill-opacity="0.12" />
+  <rect x="130" y="160" width="940" height="120" rx="30" fill="#ffffff" fill-opacity="0.24" />
+  <rect x="130" y="320" width="760" height="40" rx="20" fill="#ffffff" fill-opacity="0.24" />
+  <rect x="130" y="390" width="520" height="40" rx="20" fill="#ffffff" fill-opacity="0.24" />
+  <rect x="130" y="460" width="880" height="40" rx="20" fill="#ffffff" fill-opacity="0.24" />
+  <rect x="130" y="530" width="420" height="40" rx="20" fill="#ffffff" fill-opacity="0.24" />
+  <rect x="930" y="320" width="100" height="40" rx="20" fill="#ffffff" fill-opacity="0.24" />
+  <rect x="930" y="380" width="160" height="40" rx="20" fill="#ffffff" fill-opacity="0.24" />
+  <rect x="930" y="440" width="220" height="40" rx="20" fill="#ffffff" fill-opacity="0.24" />
+  <circle cx="180" cy="470" r="12" fill="#ffffff" />
+  <circle cx="220" cy="470" r="12" fill="#ffffff" />
+  <circle cx="260" cy="470" r="12" fill="#ffffff" />
+  <path d="M230 215H350" stroke="#ffffff" stroke-width="12" stroke-linecap="round" opacity="0.8" />
+  <path d="M230 265H580" stroke="#ffffff" stroke-width="9" stroke-linecap="round" opacity="0.8" />
+  <path d="M230 315H400" stroke="#ffffff" stroke-width="9" stroke-linecap="round" opacity="0.8" />
+  <path d="M230 365H680" stroke="#ffffff" stroke-width="9" stroke-linecap="round" opacity="0.8" />
+  <path d="M230 415H520" stroke="#ffffff" stroke-width="9" stroke-linecap="round" opacity="0.8" />
+  <path d="M230 465H820" stroke="#ffffff" stroke-width="9" stroke-linecap="round" opacity="0.8" />
+  <text x="180" y="705" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="64" font-weight="700">SuMo</text>
+  <text x="180" y="770" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="32" opacity="0.85">Summarecon Mobility App</text>
+</svg>
